@@ -56,6 +56,11 @@ def printliste():
     time.sleep(3)
     menu()
 
+def reset():
+    name = input('Navn: ')
+    dict[name] = 0
+    menu()
+
 def menu():
     print("MENU")
     print("1: Print liste")
@@ -71,6 +76,8 @@ def menu():
         payMoney()
     if (valg == '4'):
         afslut()
+    if (valg == 'reset'):
+        reset()
     else:
         print('Ugyldig indtastning')
         time.sleep(1)
