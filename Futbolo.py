@@ -56,12 +56,20 @@ def printliste():
     time.sleep(3)
     menu()
 
+def bottom3_metode_2():
+    print("Bottom 3:")
+    bund3 = list(sorted(dict.items(), key=lambda kv: (kv[1], kv[0])))[:3]
+    for item in bund3:
+        print(item)
+    menu()
+
 def menu():
     print("MENU")
     print("1: Print liste")
     print("2: Hvor meget har jeg betalt?")
     print("3: Betal")
     print("4: Afslut program")
+    print("5: 3 laveste")
     valg = input("Indtast dit valg: ")
     if (valg == '1'):
         printliste()
@@ -71,6 +79,8 @@ def menu():
         payMoney()
     if (valg == '4'):
         afslut()
+    if (valg == "5"):
+        bottom3_metode_2()
     else:
         print('Ugyldig indtastning')
         time.sleep(1)
