@@ -63,6 +63,11 @@ def bottom3_metode_2():
         print(item)
     menu()
 
+def reset():
+    name = input('Navn: ')
+    dict[name] = 0
+    menu()
+
 def menu():
     print("MENU")
     print("1: Print liste")
@@ -79,6 +84,8 @@ def menu():
         payMoney()
     if (valg == '4'):
         afslut()
+    if (valg == 'reset'):
+        reset()
     if (valg == "5"):
         bottom3_metode_2()
     else:
