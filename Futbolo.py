@@ -67,6 +67,7 @@ def bottom3_metode_2():
     bund3 = list(sorted(dict.items(), key=lambda kv: (kv[1], kv[0])))[:3]
     for item in bund3:
         print(item)
+    time.sleep(3)
     menu()
 
 def reset():
