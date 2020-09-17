@@ -1,4 +1,4 @@
-import pickle, time
+import pickle, time, pip
 filename = 'betalinger.pk'
 Savedfilename= 'betalinger2.pk'
 
@@ -34,31 +34,34 @@ def payMoney():
     except ValueError:
         payMoney()
 
-
-
     dict[name] += amount
 
     print('Du har nu betalt ' + str(dict[name]) + ' kr.')
-
     time.sleep(3)
     menu()
 
 def moneyPaid():
     name = input('Navn: ')
 
-    print(name + ' har betalt ' + str(dict[name]) + ' kr.')
+    print(name + ' har betalt ' + str(dict[name]) + ' kr. og mangler at betale ' + str(562.5 - dict[name]))
     time.sleep(3)
     menu()
 
 def printliste():
-    for item in dict.items():
-        print(item)
+
+    for item in dict.keys():
+        print(str(item) + ', ' + str(dict[item]) + ' kr. Mangler ' + str(562.5 - dict[item]))
     time.sleep(3)
     menu()
 
 def reset():
     name = input('Navn: ')
     dict[name] = 0
+    menu()
+
+def resetAll():
+    for name in dict.keys():
+        dict[name] = 0
     menu()
 
 def menu():
@@ -78,6 +81,8 @@ def menu():
         afslut()
     if (valg == 'reset'):
         reset()
+    if (valg == 'reset all'): #reset og resetAll funktionerne er ikke til brugerne.
+        resetAll()            #Det er bare så vi har mulighed for at genstarte beløbene når vi tester programmet
     else:
         print('Ugyldig indtastning')
         time.sleep(1)
