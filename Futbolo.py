@@ -1,10 +1,11 @@
 import pickle, time
 filename = 'betalinger.pk'
-
+Savedfilename= 'betalinger2.pk'
 
 fodboldtur ={}
 
 dict = {
+    'Bob': 0,
     'Hans Hansen': 0,
     'Klaus Klausen': 0,
     'Ole Olsen': 0,
@@ -15,11 +16,13 @@ dict = {
     'Ib Ibsen': 0
     }
 
-
-def afslut():
+def save():
     outfile = open(filename, 'wb')
     pickle.dump(dict, outfile)
     outfile.close()
+
+def afslut():
+    save()
     print("Programmet er afsluttet!")
     quit()
 
@@ -29,33 +32,31 @@ def payMoney():
     name = input('Navn: ')
     amount_string = input('Beløb: ')
     try:
-        amount = float(amount_string)
+        amount = int(amount_string)
     except ValueError:
         payMoney()
-    else:
-        dict[name] += amount
 
-        if dict[name] > 562.5:
-            print("Du kan ikke insætte mere end 562,5.-")
-            menu()
 
-        print('Du har nu betalt ' + str(dict[name]) + ' kr.')
 
-        time.sleep(2)
-        menu()
+    dict[name] += amount
+
+    print('Du har nu betalt ' + str(dict[name]) + ' kr.')
+    save()
+
+    time.sleep(3)
+    menu()
 
 def moneyPaid():
     name = input('Navn: ')
 
     print(name + ' har betalt ' + str(dict[name]) + ' kr.')
-    time.sleep(2)
+    time.sleep(3)
     menu()
-
 
 def printliste():
     for item in dict.items():
         print(item)
-    time.sleep(2)
+    time.sleep(3)
     menu()
 
 def bottom3_metode_2():
@@ -75,7 +76,7 @@ def menu():
     print("1: Print liste")
     print("2: Hvor meget har jeg betalt?")
     print("3: Betal")
-    print("4: Afslut program")
+    print("4: Afslut program og gem")
     print("5: 3 laveste")
     valg = input("Indtast dit valg: ")
     if (valg == '1'):
@@ -94,6 +95,10 @@ def menu():
         print('Ugyldig indtastning')
         time.sleep(1)
         menu()
+
+
+
+
 
 infile = open(filename,'rb')
 dict = pickle.load(infile)
