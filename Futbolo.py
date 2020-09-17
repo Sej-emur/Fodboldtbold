@@ -1,11 +1,10 @@
 import pickle, time
 filename = 'betalinger.pk'
-Savedfilename= 'betalinger2.pk'
+
 
 fodboldtur ={}
 
 dict = {
-    'Bob': 0,
     'Hans Hansen': 0,
     'Klaus Klausen': 0,
     'Ole Olsen': 0,
@@ -30,30 +29,33 @@ def payMoney():
     name = input('Navn: ')
     amount_string = input('Beløb: ')
     try:
-        amount = int(amount_string)
+        amount = float(amount_string)
     except ValueError:
         payMoney()
+    else:
+        dict[name] += amount
 
+        if dict[name] > 562.5:
+            print("Du kan ikke insætte mere end 562,5.-")
+            menu()
 
+        print('Du har nu betalt ' + str(dict[name]) + ' kr.')
 
-    dict[name] += amount
-
-    print('Du har nu betalt ' + str(dict[name]) + ' kr.')
-
-    time.sleep(3)
-    menu()
+        time.sleep(2)
+        menu()
 
 def moneyPaid():
     name = input('Navn: ')
 
     print(name + ' har betalt ' + str(dict[name]) + ' kr.')
-    time.sleep(3)
+    time.sleep(2)
     menu()
+
 
 def printliste():
     for item in dict.items():
         print(item)
-    time.sleep(3)
+    time.sleep(2)
     menu()
 
 def bottom3_metode_2():
@@ -92,10 +94,6 @@ def menu():
         print('Ugyldig indtastning')
         time.sleep(1)
         menu()
-
-
-
-.
 
 infile = open(filename,'rb')
 dict = pickle.load(infile)
