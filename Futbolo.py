@@ -41,12 +41,16 @@ def payMoney():
     if dict[name] > 562.5:
         print("Du kan ikke insætte mere end 562,5.-")
         menu()
-
-
+    else:
         print('Du har nu betalt ' + str(dict[name]) + ' kr.')
+
     save()
     time.sleep(3)
     menu()
+
+
+
+
 
 def moneyPaid():
     name = input('Navn: ')
@@ -73,11 +77,13 @@ def bottom3_metode_2():
 def reset():
     name = input('Navn: ')
     dict[name] = 0
+    save()
     menu()
 
 def resetAll():
     for name in dict.keys():
         dict[name] = 0
+    save()
     menu()
 
 def menu():
@@ -111,3 +117,4 @@ infile = open(filename,'rb')
 dict = pickle.load(infile)
 infile.close()
 menu()
+
