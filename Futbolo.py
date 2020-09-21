@@ -1,8 +1,8 @@
-import pickle, time
+import pickle, time, random
 filename = 'betalinger.pk'
 Savedfilename= 'betalinger2.pk'
 
-fodboldtur ={}
+
 
 dict = {
     'Hans Hansen': 0,
@@ -15,7 +15,7 @@ dict = {
     'Ib Ibsen': 0
     }
 
-def save():
+def save(): #Gemme funktion, der bliver kaldt når de andre funktioner har lavet en ændring, der skal gemmes
     outfile = open(filename, 'wb')
     pickle.dump(dict, outfile)
     outfile.close()
@@ -33,16 +33,33 @@ def payMoney():
     try:
         amount = float(amount_string)
     except ValueError:
+        print("Ugyldig indtastning")
         payMoney()
 
-    dict[name] += amount
+    def confirm():
+        valg = input("Er du sikker?(ja/nej): ")
+        valg = valg.lower()
+        if valg == "ja":
+            dict[name] += amount
+            if dict[name] > 562.5:  # 562.5 er det beløb alle skal betale for at nå de 4500 kr.
+                print(
+                    "Du kan ikke insætte mere end 562,5.-")  # Denne del af koden sørger for at ingen betaler for meget
+                menu()
+            else:
+                print('Du har nu betalt ' + str(dict[name]) + ' kr.')
+        elif valg == "nej":
+            print("Går til hovedmenuen...")
+            time.sleep(2)
+            menu()
+        else:
+            print("Ugyldig intastning")
+            confirm()
+    confirm()
 
 
-    if dict[name] > 562.5:
-        print("Du kan ikke insætte mere end 562,5.-")
-        menu()
-    else:
-        print('Du har nu betalt ' + str(dict[name]) + ' kr.')
+
+
+
 
     save()
     time.sleep(3)
@@ -62,7 +79,7 @@ def moneyPaid():
 def printliste():
 
     for item in dict.keys():
-        print(str(item) + ', ' + str(dict[item]) + ' kr. Mangler ' + str(562.5 - dict[item]))
+        print(str(item) + ', ' + str(dict[item]) + ' kr. Mangler ' + str(562.5 - dict[item]) + ' kr.')
     time.sleep(3)
     menu()
 
@@ -78,12 +95,24 @@ def reset():
     name = input('Navn: ')
     dict[name] = 0
     save()
+    print(f"{name} har nu betalt {dict[name]} kr.")
+    time.sleep(2)
     menu()
 
 def resetAll():
     for name in dict.keys():
         dict[name] = 0
     save()
+    printliste()
+    time.sleep(5)
+    menu()
+
+def defaultList():
+    for name in dict.keys():
+        dict[name] = random.randint(0, 562)
+    save()
+    printliste()
+    time.sleep(5)
     menu()
 
 def menu():
@@ -91,7 +120,7 @@ def menu():
     print("1: Print liste")
     print("2: Hvor meget har jeg betalt?")
     print("3: Betal")
-    print("4: Afslut program og gem")
+    print("4: Gem og afslut")
     print("5: 3 laveste")
     valg = input("Indtast dit valg: ")
     if (valg == '1'):
@@ -107,7 +136,9 @@ def menu():
     if (valg == 'reset'):
         reset()
     if (valg == 'reset all'): #reset og resetAll funktionerne er ikke til brugerne.
-        resetAll()            #Det er bare så vi har mulighed for at genstarte beløbene når vi tester programmet
+        resetAll()   #Det er bare så vi har mulighed for at genstarte beløbene når vi tester programmet
+    if (valg == 'default'):
+        defaultList()
     else:
         print('Ugyldig indtastning')
         time.sleep(1)
